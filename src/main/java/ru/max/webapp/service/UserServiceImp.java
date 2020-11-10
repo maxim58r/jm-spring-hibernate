@@ -22,20 +22,20 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    public User readUser(int id) {
+    public User readUser(long id) {
         return userDao.getUser(id);
     }
 
     @Transactional
     @Override
-    public void update() {
-        userDao.updateUser();
+    public void update(long id, User updateUser) {
+        userDao.updateUser(id,updateUser);
     }
 
     @Transactional
     @Override
-    public void delete(User user) {
-        userDao.deleteUser(user);
+    public void delete(long id) {
+        userDao.deleteUser(id);
     }
 
     @Transactional(readOnly = true)

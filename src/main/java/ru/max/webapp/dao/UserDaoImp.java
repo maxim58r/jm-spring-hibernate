@@ -20,18 +20,23 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUser(long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
-    public void updateUser() {
-        entityManager.merge(User.class);
+    public void updateUser(long id, User updateUser) {
+        User user = getUser(id);
+        user.setFirstName(updateUser.getFirstName());
+        user.setLastName(updateUser.getLastName());
+        user.setEmail(updateUser.getEmail());
+        entityManager.merge(user);
     }
 
     @Override
-    public void deleteUser(User user) {
-        if (entityManager.contains(user)) {
+    public void deleteUser(long id) {
+        if (entityManager.contains(getUser(id))) {
+            User user = getUser(id);
             entityManager.remove(user);
         }
     }
@@ -40,6 +45,8 @@ public class UserDaoImp implements UserDao {
     @SuppressWarnings("unchecked")
     public List<User> listUsers() {
         Query query = entityManager.createQuery("from User");
+//        TypedQuery<User> query =
+//                entityManager.createNamedQuery("User.findAll", User.class);
         return query.getResultList();
     }
 }

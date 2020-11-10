@@ -5,12 +5,17 @@
     <title>User</title>
 </head>
 <body>
-User!!!
+
 <p th:text="${user.toString()}">User</p>
-<p th:text="${user.getId()()}">User id</p>
+<p th:text="${user.getId()}">User id</p>
 
-<!--<a href="/owner">Owner</a>-->
-<!--or <a href="/three/exit">EXIT</a>-->
+<a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>
+<a href="/users">All users</a>
+<a href="/users/new">Add user</a>
 
+
+<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
 </body>
 </html>

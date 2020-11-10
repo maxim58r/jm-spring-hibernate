@@ -60,10 +60,4 @@ public class AppConfig {
         transactionManager.setSessionFactory(getSessionFactory().getObject());
         return transactionManager;
     }
-//
-//    @Bean
-//    @Qualifier(value = "entityManager")
-//    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
-//        return entityManagerFactory.createEntityManager();
-//    }
 }

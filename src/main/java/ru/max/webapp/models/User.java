@@ -3,15 +3,14 @@ package ru.max.webapp.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Setter
 @Getter
-@ToString(exclude = "id")
 @NoArgsConstructor
 @Entity
+//@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 @Table(name = "users")
 public class User {
 
@@ -37,5 +36,14 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User" +
+                "\n Id: " + id  +
+                "\n; FirstName: " + firstName +
+                "\n; LastName: " + lastName +
+                "\n; email: " + email;
     }
 }
