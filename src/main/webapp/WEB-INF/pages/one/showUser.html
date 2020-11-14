@@ -6,15 +6,17 @@
 </head>
 <body>
 
-<p th:text="${user.toString()}">User</p>
 <p th:text="${user.getId()}">User id</p>
+<p th:text="${user.getUsername()}">User</p>
+<p th:text="${user.getPassword()}">User</p>
+<p th:text="${user.getRole()}">User</p>
 
-<a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>
+<a th:href="@{/{id}/edit(id=${user.getId()})}">Edit</a>
 <a href="/users">All users</a>
-<a href="/users/new">Add user</a>
+<a href="/new">Add user</a>
 
 
-<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+<form th:method="DELETE" th:action="@{{id}(id=${user.getId()})}">
     <input type="submit" value="Delete"/>
 </form>
 </body>

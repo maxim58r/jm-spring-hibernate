@@ -3,47 +3,77 @@ package ru.max.webapp.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @Entity
-//@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String firstName;
+//    @Column(name = "name")
+//    private String firstName;
+//
+//    @Column(name = "last_name")
+//    private String lastName;
+//
+//    @Column(name = "email")
+//    private String email;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "username",nullable = false)
+    private String username;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "password",nullable = false)
+    private String password;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "car_id")
-//    private Car car;
+    @Column(name = "role",nullable = false)
+    private String role;
 
-    public User(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+//    @ManyToMany
+//    @JoinTable(name = "users_roles",
+//            joinColumns = @JoinColumn(name = "USER_ID"),
+//            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+//    private Set<Roles> roles = new HashSet<>();
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
-    public String toString() {
-        return "User" +
-                "\n Id: " + id  +
-                "\n; FirstName: " + firstName +
-                "\n; LastName: " + lastName +
-                "\n; email: " + email;
+    public boolean isAccountNonExpired() {
+        return false;
     }
-}
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+  }

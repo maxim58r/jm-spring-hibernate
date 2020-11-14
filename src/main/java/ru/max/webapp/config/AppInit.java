@@ -29,15 +29,15 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         return new String[]{"/"};
     }
 
-//    @Override
-//    public void onStartup(ServletContext servletContext) throws ServletException {
-//        super.onStartup(servletContext);
-//        registerHiddenFieldFilter(servletContext);
-//
-//    }
-//
-//    private void registerHiddenFieldFilter(ServletContext servletContext) {
-//       servletContext.addFilter("hiddenHttpMethodFilter", new HiddenHttpMethodFilter())
-//        .addMappingForUrlPatterns(null,true, "/*");
-//    }
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+        registerHiddenFieldFilter(servletContext);
+
+    }
+
+    private void registerHiddenFieldFilter(ServletContext servletContext) {
+       servletContext.addFilter("hiddenHttpMethodFilter", new HiddenHttpMethodFilter())
+        .addMappingForUrlPatterns(null,true, "/*");
+    }
 }

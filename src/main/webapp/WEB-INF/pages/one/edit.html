@@ -5,17 +5,21 @@
     <title>Edit User</title>
 </head>
 <body>
-<form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
-    <input type="hidden" name="_method" value="PATCH">
-    <label for="first name">Enter first name: </label>
-    <input type="text" th:field="*{firstName}" id="first name">
+<form th:method="PATCH" th:action="@{/{id}(id=${user.getId()})}" th:object="${user}">
+<!--    <input type="hidden" name="_method" value="PATCH">-->
+
+    <label for="username">Enter first name: </label>
+    <input type="text" th:field="*{username}" id="username">
     <br>
-    <label for="last name">Enter last name: </label>
-    <input type="text" th:field="*{lastName}" id="last name">
+    <label for="password">Enter password: </label>
+    <input type="text" th:field="*{password}" id="password">
     <br>
-    <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email">
+    <label for="role">Enter role: </label>
+    <input type="text" th:field="*{role}" id="role">
     <br>
+<!--    <label for="email">Enter email: </label>-->
+<!--    <input type="text" th:field="*{email}" id="email">-->
+<!--    <br>-->
     <input type="submit" value="Update user">
 </form>
 </body>

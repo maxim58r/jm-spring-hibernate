@@ -6,13 +6,17 @@
 </head>
 <body>
 <div th:each="user : ${users}">
-    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a>
-    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getFirstName()}">user</a>
-    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getLastName()}">user</a>
-    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getEmail()}">user</a>
+    <a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a>
+<!--    <a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getFirstName()}">user</a>-->
+<!--    <a th:href="@{{id}(id=${user.getId()})}" th:text="${user.getLastName()}">user</a>-->
+    <a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getUsername()}">user</a>
+    <a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getPassword()}">user</a>
+    <a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getRole()}">user</a>
 </div>
 <br/>
 <hr/>
-<a href="/new">Create new user</a>
+<form th:method="GET" th:action="@{/new}">
+    <input type="submit" value="Create"/>
+<!--<a href="/new">Create new user</a>-->
 </body>
 </html>

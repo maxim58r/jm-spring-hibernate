@@ -16,14 +16,14 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    public void create(User user) {
+    public void save(User user) {
         userDao.saveUser(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public User readUser(long id) {
-        return userDao.getUser(id);
+    public User findById(long id) {
+        return userDao.findById(id);
     }
 
     @Transactional
@@ -40,8 +40,8 @@ public class UserServiceImp implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> listUsers() {
-        return userDao.listUsers();
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 
 

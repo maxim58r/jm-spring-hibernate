@@ -16,37 +16,46 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        entityManager.merge(user);
+        testUser(user);
+    }
+
+    private void testUser(User user) {
+        if (user.getId() == null) {
+            entityManager.persist(user);
+        } else {
+            entityManager.merge(user);
+        }
     }
 
     @Override
-    public User getUser(long id) {
+    public User findById(long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
     public void updateUser(long id, User updateUser) {
-        User user = getUser(id);
-        user.setFirstName(updateUser.getFirstName());
-        user.setLastName(updateUser.getLastName());
-        user.setEmail(updateUser.getEmail());
-        entityManager.merge(user);
+        User user = findById(id);
+        user.setUsername(updateUser.getUsername());
+        user.setPassword(updateUser.getPassword());
+//        user.setFirstName(updateUser.getFirstName());
+//        user.setLastName(updateUser.getLastName());
+//        user.setEmail(updateUser.getEmail());
+        saveUser(user);
     }
 
     @Override
     public void deleteUser(long id) {
-        if (entityManager.contains(getUser(id))) {
-            User user = getUser(id);
+        if (entityManager.contains(findById(id))) {
+            User user = findById(id);
             entityManager.remove(user);
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> listUsers() {
-        Query query = entityManager.createQuery("from User");
-//        TypedQuery<User> query =
-//                entityManager.createNamedQuery("User.findAll", User.class);
+    public List<User> findAll() {
+        Query query = entityManager.createQuery("select u from User u");
+//        return entityManager.createNamedQuery("User.findAll", User.class).getResultList();
         return query.getResultList();
     }
 }

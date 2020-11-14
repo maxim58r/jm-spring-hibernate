@@ -7,17 +7,12 @@ import java.util.List;
 public interface UserDao {
     void saveUser(User user);
 
-    User getUser(long id);
-
-//    void updateUser();
+    User findById(long id);
 
     void updateUser(long id, User updateUser);
 
     void deleteUser(long id);
 
-    List<User> listUsers();
+    List<User> findAll();
 
-//    void saveUser(User user);
-
-//    User getUser(String model, int series);
 }

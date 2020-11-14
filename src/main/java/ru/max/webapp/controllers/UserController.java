@@ -1,5 +1,6 @@
 package ru.max.webapp.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,58 +15,59 @@ import java.util.List;
  * @author Serov Maxim
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping
 public class UserController {
-//    private final UserService userService;
+    private final UserService userService;
 
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-//
-//    @RequestMapping(value = "/users",method = RequestMethod.GET)
-//    public String showUsers(Model model) {
-//        model.addAttribute("users", userService.listUsers());
-//        return "one/showUsers";
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    public String showUser(@PathVariable("id") long id,
-//                           Model model) {
-//        model.addAttribute("user", userService.readUser(id));
-//        return "one/showUser";
-//    }
-//
-//    @RequestMapping(value = "/new", method = RequestMethod.GET)
-//    public String newUser(Model model) {
-//        model.addAttribute("user", new User());
-//        return "one/new";
-//    }
-//
-//    @RequestMapping(value = "/",method = RequestMethod.POST)
-//    public String createUser(@ModelAttribute("user") User user) {
-//        userService.create(user);
-//        return "redirect:/one/showUsers";
-//    }
-//
-//    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-//    public String editUser(Model model, @PathVariable("id") long id) {
-//        model.addAttribute("user", userService.readUser(id));
-//        return "one/edit";
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-//    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-//        userService.update(id, user);
-//        return "redirect:/one/showUsers";
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    public String deleteUser(@PathVariable("id") long id) {
-//        userService.delete(id);
-//        return "redirect:/one/showUsers";
-//    }
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @GetMapping(value = "/users")
+    public String showUsers(Model model) {
+        model.addAttribute("users", userService.findAll());
+        return "one/showUsers";
+    }
+
+    @GetMapping(value = "/{id}")
+    public String showUser(@PathVariable("id") long id,
+                           Model model) {
+        model.addAttribute("user", userService.findById(id));
+        return "one/showUser";
+    }
+
+    @GetMapping(value = "/new")
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
+        return "one/new";
+    }
+
+    @PostMapping("/new")
+    public String createUser(@ModelAttribute("user") User user) {
+        userService.save(user);
+        return "redirect:/users";
+    }
+
+    @GetMapping(value = "/{id}/edit")
+    public String edit(Model model, @PathVariable("id") long id) {
+        model.addAttribute("user", userService.findById(id));
+        return "one/edit";
+    }
+
+    @PatchMapping(value = "/{id}")
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+        userService.update(id, user);
+        return "redirect:/users";
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public String deleteUser(@PathVariable("id") long id) {
+        userService.delete(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping(value = "/hello")
     public String printWelcome(ModelMap model) {
         List<String> messages = new ArrayList<>();
         messages.add("Hello!!!");
@@ -75,7 +77,7 @@ public class UserController {
         return "two/hello";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public String loginPage() {
         return "two/login";
     }
