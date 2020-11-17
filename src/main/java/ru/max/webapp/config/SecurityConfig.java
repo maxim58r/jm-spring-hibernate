@@ -3,14 +3,12 @@ package ru.max.webapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -38,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // указываем страницу с формой логина
                 .loginPage("/login")
                 //указываем логику обработки при логине
-//                .successHandler(new LoginSuccessHandler())
+                .successHandler(new LoginSuccessHandler())
                 // указываем action с формы логина
                 .loginProcessingUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
@@ -62,11 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 .antMatchers("/hello").permitAll()
-//                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("USER", "ADMIN")
-//                .antMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.GET, "/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
+//                .antMatchers(HttpMethod.POST, "/**").hasRole(Role.ADMIN.name())
+//                .antMatchers(HttpMethod.DELETE, "/**").hasRole(Role.ADMIN.name())
                 //страницы аутентификаци доступна всем
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .httpBasic();
 //                .antMatchers("/login").anonymous()
@@ -85,11 +84,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 User.builder()
                         .username("admin")
                         .password(passwordEncoder().encode("admin"))
-                        .roles("ADMIN")
+               // $2y$12$KHEppTmHg/Dxge9DAfOj2.GrsEZNeaUbEMI5y4LRNyzIlykZ3YyK.
+                .roles("ADMIN")
                         .build(),
                 User.builder()
                         .username("user")
                         .password(passwordEncoder().encode("user"))
+                // $2y$12$RPLoMmCfAjwmAOo8piM7Ueb9PQG3ZKyONr40ksU6e5fJkPJSDYOAq
                         .roles("USER")
                         .build()
         );

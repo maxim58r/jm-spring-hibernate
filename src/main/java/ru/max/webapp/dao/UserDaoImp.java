@@ -16,10 +16,6 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        testUser(user);
-    }
-
-    private void testUser(User user) {
         if (user.getId() == null) {
             entityManager.persist(user);
         } else {
