@@ -8,15 +8,6 @@
 
 <form th:method="POST" th:action="@{/new}" th:object="${user}">
     <input type="hidden" name="_method" value="POST">
-<!--    <label for="first name">Enter first name: </label>-->
-<!--    <input type="text" th:field="*{firstName}" id="first name">-->
-<!--    <br>-->
-<!--    <label for="last name">Enter last name: </label>-->
-<!--    <input type="text" th:field="*{lastName}" id="last name">-->
-<!--    <br>-->
-<!--    <label for="email">Enter email: </label>-->
-<!--    <input type="text" th:field="*{email}" id="email">-->
-<!--    <br>-->
    <label for="username">Enter username: </label>
     <input type="text" th:field="*{username}" id="username">
     <br>

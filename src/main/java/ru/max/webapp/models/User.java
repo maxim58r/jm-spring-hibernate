@@ -15,8 +15,8 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "USER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 //    @Column(name = "name")
@@ -28,29 +28,28 @@ public class User implements UserDetails {
 //    @Column(name = "email")
 //    private String email;
 
-    @Column(name = "username",nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password",nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
-
-//    @Column(name = "roles",nullable = false)
-//    private Set<Role> role;
+    @Transient
+    transient private String confirmPassword;
 
     @ManyToMany
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<Role> roles;
 
 
     public User() {
     }
 
-    public User(String username, String password, Set<Role> role) {
+    public User(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
-        this.roles = role;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -69,12 +68,20 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public void setRoles(Set<Role> role) {
-        this.roles = role;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public Set<Role> getRoles() {
+        return roles = new HashSet<>();
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -119,11 +126,12 @@ public class User implements UserDetails {
         User user = (User) o;
         return getId().equals(user.getId()) &&
                 getUsername().equals(user.getUsername()) &&
-                getPassword().equals(user.getPassword());
+                getPassword().equals(user.getPassword()) &&
+                getRoles().equals(user.getRoles());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword());
+        return Objects.hash(getId(), getUsername(), getPassword(), getRoles());
     }
 }

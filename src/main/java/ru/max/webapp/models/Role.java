@@ -9,29 +9,21 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "roles")
     private String role;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    private Set<User> users;
 
-    public Role(Long id, String role) {
-        this.id = id;
-        this.role = role;
-    }
-
-    public Role() {
-    }
-
-    public Role(String role) {
-        this.role = role;
+       public Role() {
     }
 
     public Long getId() {
@@ -50,18 +42,27 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role1 = (Role) o;
         return getId().equals(role1.getId()) &&
-                getRole().equals(role1.getRole());
+                getRole().equals(role1.getRole()) &&
+                getUsers().equals(role1.getUsers());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRole());
+        return Objects.hash(getId(), getRole(), getUsers());
     }
 
     @Override

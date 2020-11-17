@@ -24,13 +24,13 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User findById(long id) {
-        return entityManager.find(User.class, id);
+    public User findByUsername(String username) {
+        return entityManager.find(User.class, username);
     }
 
     @Override
-    public void updateUser(long id, User updateUser) {
-        User user = findById(id);
+    public void updateUser(String username, User updateUser) {
+        User user = findByUsername(username);
         user.setUsername(updateUser.getUsername());
         user.setPassword(updateUser.getPassword());
 //        user.setFirstName(updateUser.getFirstName());
@@ -40,9 +40,9 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void deleteUser(long id) {
-        if (entityManager.contains(findById(id))) {
-            User user = findById(id);
+    public void deleteUser(String username) {
+        if (entityManager.contains(findByUsername(username))) {
+            User user = findByUsername(username);
             entityManager.remove(user);
         }
     }
