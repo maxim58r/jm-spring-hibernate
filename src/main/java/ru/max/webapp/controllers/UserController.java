@@ -17,12 +17,9 @@ import java.util.List;
 @Controller
 @RequestMapping
 public class UserController {
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
+
 
     @GetMapping(value = "/users")
     public String showUsers(Model model) {
