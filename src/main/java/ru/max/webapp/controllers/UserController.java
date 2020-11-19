@@ -30,10 +30,10 @@ public class UserController {
         return "one/showUsers";
     }
 
-    @GetMapping(value = "/{id}")
-    public String showUser(@PathVariable("id") long id,
+    @GetMapping(value = "/{username}")
+    public String showUser(@PathVariable("username") String username,
                            Model model) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findByUsername(username));
         return "one/showUser";
     }
 
@@ -49,21 +49,21 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping(value = "/{id}/edit")
-    public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userService.findById(id));
+    @GetMapping(value = "/{username}/edit")
+    public String edit(Model model, @PathVariable("username") String username) {
+        model.addAttribute("user", userService.findByUsername(username));
         return "one/edit";
     }
 
-    @PatchMapping(value = "/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        userService.update(id, user);
+    @PatchMapping(value = "/{username}")
+    public String update(@ModelAttribute("user") User user, @PathVariable("username") String username) {
+        userService.update(username, user);
         return "redirect:/users";
     }
 
-    @DeleteMapping(value = "/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
-        userService.delete(id);
+    @DeleteMapping(value = "/{username}")
+    public String deleteUser(@PathVariable("username") String username) {
+        userService.delete(username);
         return "redirect:/users";
     }
 

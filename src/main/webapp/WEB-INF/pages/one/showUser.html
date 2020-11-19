@@ -11,7 +11,7 @@
 <p th:text="${user.getPassword()}">User</p>
 <p th:text="${user.getRoles()}">User</p>
 
-<a th:href="@{/{id}/edit(id=${user.getId()})}">Edit</a>
+<a th:href="@{/{username}/edit(username=${user.getUsername()})}">Edit</a>
 <a th:href="@{/users}">All users</a>
 <a th:href="@{/new}">Add user</a>
 <a th:href="@{/logout}">Exit</a>
