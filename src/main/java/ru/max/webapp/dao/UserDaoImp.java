@@ -37,7 +37,7 @@ public class UserDaoImp implements UserDao {
         User user = findById(id);
         user.setUsername(updateUser.getUsername());
         user.setPassword(updateUser.getPassword());
-        user.setRole(updateUser.getRole());
+        user.setRoles(updateUser.getRoles());
 //        user.setFirstName(updateUser.getFirstName());
 //        user.setLastName(updateUser.getLastName());
 //        user.setEmail(updateUser.getEmail());

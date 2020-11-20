@@ -41,4 +41,4 @@ insert into my_db.roles values (2, 'ROLE_USER');
 
 insert into my_db.users_roles values (1, 2);
 
-select * from users;
+select * from users, roles;

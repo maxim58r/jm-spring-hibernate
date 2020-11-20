@@ -1,14 +1,21 @@
 package ru.max.webapp.models;
 
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString(exclude = "id")
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -18,7 +25,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "name")
+    //    @Column(name = "name")
 //    private String firstName;
 //
 //    @Column(name = "last_name")
@@ -26,10 +33,11 @@ public class User implements UserDetails {
 //
 //    @Column(name = "email")
 //    private String email;
-
+    @NotEmpty(message = "Name should not be empty")
     @Column(name = "username", nullable = false)
     private String username;
 
+    @NotEmpty(message = "Password should not be empty")
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -39,55 +47,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     protected Set<Role> roles = new HashSet<>();
 
-
-    public User() {
-    }
-
-    public User(Long id, String username, String password, Set<Role> roles) {
-        this.id = id;
+    public User(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRole() {
-        return roles;
-    }
-
-    public void setRole(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id) &&
-                username.equals(user.username) &&
-                password.equals(user.password) &&
-                roles.equals(user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, roles);
     }
 
     @Override

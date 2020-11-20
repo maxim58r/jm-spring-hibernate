@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.max.webapp.models.User;
 import ru.max.webapp.service.UserService;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,15 @@ import java.util.List;
  * @author Serov Maxim
  */
 @Controller
-@RequestMapping
+@RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
 
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/users")
     public String showUsers(Model model) {
@@ -34,35 +40,7 @@ public class UserController {
         return "one/showUser";
     }
 
-    @GetMapping(value = "/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        return "one/new";
-    }
 
-    @PostMapping("/new")
-    public String createUser(@ModelAttribute("user") User user) {
-        userService.save(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping(value = "/{id}/edit")
-    public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userService.findById(id));
-        return "one/edit";
-    }
-
-    @PatchMapping(value = "/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        userService.update(id, user);
-        return "redirect:/users";
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
-        userService.delete(id);
-        return "redirect:/users";
-    }
 
     @GetMapping(value = "/hello")
     public String printWelcome(ModelMap model) {

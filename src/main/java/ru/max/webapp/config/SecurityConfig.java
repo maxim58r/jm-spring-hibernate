@@ -35,16 +35,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        filter.setForceEncoding(true);
 //        http.addFilterBefore(filter, CsrfFilter.class);
         http.formLogin()
-                // указываем страницу с формой логина
+//                // указываем страницу с формой логина
                 .loginPage("/login")
-                //указываем логику обработки при логине
-//                .successHandler(new LoginSuccessHandler())
-                // указываем action с формы логина
+//                //указываем логику обработки при логине
+                .successHandler(new LoginSuccessHandler())
+//                // указываем action с формы логина
                 .loginProcessingUrl("/login")
-                // Указываем параметры логина и пароля с формы логина
+//                // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
-                // даем доступ к форме логина всем
+//                // даем доступ к форме логина всем
                 .permitAll();
 
         http.logout()
@@ -62,14 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 .antMatchers("/hello").permitAll()
-//                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("USER", "ADMIN")
-//                .antMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+//                .antMatchers("/login").anonymous()
                 //страницы аутентификаци доступна всем
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
-//                .antMatchers("/login").anonymous()
+
 //                // защищенные URL
 //                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
     }
