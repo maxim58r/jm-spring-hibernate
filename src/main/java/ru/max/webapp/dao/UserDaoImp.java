@@ -1,47 +1,52 @@
 package ru.max.webapp.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+import ru.max.webapp.models.Role;
 import ru.max.webapp.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoImp implements UserDao {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private Role role;
 
     @Override
     public void saveUser(User user) {
-        testUser(user);
-    }
-
-    private void testUser(User user) {
         if (user.getId() == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            Set<Role> roles = new HashSet<>();
+            user.setRoles(roles.add(role));
             entityManager.persist(user);
-        } else {
-            entityManager.merge(user);
         }
-    }
-
-    @Override
-    public User findById(long id) {
-        return entityManager.find(User.class, id);
     }
 
     @Override
     public void updateUser(long id, User updateUser) {
         User user = findById(id);
         user.setUsername(updateUser.getUsername());
-        user.setPassword(updateUser.getPassword());
+        user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         user.setRoles(updateUser.getRoles());
-//        user.setFirstName(updateUser.getFirstName());
-//        user.setLastName(updateUser.getLastName());
-//        user.setEmail(updateUser.getEmail());
-        saveUser(user);
+        entityManager.merge(user);
+    }
+
+    @Override
+    public User findById(long id) {
+        return entityManager.find(User.class, id);
     }
 
     @Override

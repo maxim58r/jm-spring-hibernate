@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -31,7 +32,7 @@ public class Role implements GrantedAuthority {
     private String role;
 
     @ManyToMany(mappedBy = "roles")
-    protected Set<User> users = new HashSet<>();
+    protected Set<User> users;
 
     public Role(Long id, String role, Set<User> users) {
         this.id = id;
@@ -41,8 +42,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(users.stream().map(p -> p.roles));
-        return new String(sb);
+        return role;
     }
 }

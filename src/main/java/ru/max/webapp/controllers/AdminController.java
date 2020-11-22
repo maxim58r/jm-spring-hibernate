@@ -23,21 +23,6 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        return "one/new";
-    }
-
-    @PostMapping("/new")
-    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "one/new";
-        }
-        userService.save(user);
-        return "redirect:/users";
-    }
-
     @GetMapping(value = "/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.findById(id));

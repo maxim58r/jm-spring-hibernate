@@ -25,14 +25,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @Column(name = "name")
-//    private String firstName;
-//
-//    @Column(name = "last_name")
-//    private String lastName;
-//
-//    @Column(name = "email")
-//    private String email;
     @NotEmpty(message = "Name should not be empty")
     @Column(name = "username", nullable = false)
     private String username;
@@ -45,7 +37,13 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    protected Set<Role> roles = new HashSet<>();
+    protected Set<Role> roles;
+
+    public User(@NotEmpty(message = "Name should not be empty") String username,
+                @NotEmpty(message = "Password should not be empty") String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public User(String username, String password, Set<Role> roles) {
         this.username = username;
