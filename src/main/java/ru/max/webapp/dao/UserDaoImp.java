@@ -22,7 +22,7 @@ public class UserDaoImp implements UserDao {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+//    @Autowired
     private Role role;
 
     @Override
@@ -30,7 +30,8 @@ public class UserDaoImp implements UserDao {
         if (user.getId() == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             Set<Role> roles = new HashSet<>();
-            user.setRoles(roles.add(role));
+            roles.add(role);
+            user.setRoles(roles);
             entityManager.persist(user);
         }
     }
