@@ -1,5 +1,6 @@
 package ru.max.webapp.config;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,7 @@ import ru.max.webapp.models.Role;
 import ru.max.webapp.models.User;
 
 import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -28,11 +30,21 @@ public class AppConfig {
 
     @Bean
     public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("db.driver")));
-        dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUsername(env.getProperty("db.username"));
-        dataSource.setPassword(env.getProperty("db.password"));
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("db.driver")));
+//        dataSource.setUrl(env.getProperty("db.url"));
+//        dataSource.setUsername(env.getProperty("db.username"));
+//        dataSource.setPassword(env.getProperty("db.password"));
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        try {
+            dataSource.setDriverClass(Objects.requireNonNull(env.getProperty("db.driver")));
+            dataSource.setJdbcUrl(env.getProperty("db.url"));
+            dataSource.setUser(env.getProperty("db.username"));
+            dataSource.setPassword(env.getProperty("db.password"));
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
+
         return dataSource;
     }
 

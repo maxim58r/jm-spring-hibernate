@@ -1,3 +1,4 @@
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -6,10 +7,18 @@
 <body>
 
 <h3>Info about all users</h3>
-<br/>
-<br/>
-<input type="button" value="All"
-       onclick="window.location.href='/user/users'">
+<br/><br/>
+<security:authorize access="hasRole('USER')">
+    <input type="button" value="For users"
+           onclick="window.location.href='/user/users'">
+</security:authorize>
+
+<br/><br/>
+
+<security:authorize access="hasRole('ADMIN')">
+<input type="button" value="For admins"
+       onclick="window.location.href='/admin/1'">
+</security:authorize>
 <hr/>
 
 </body>

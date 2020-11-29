@@ -33,11 +33,7 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    protected Set<Role> roles;
+
 
     public User(@NotEmpty(message = "Name should not be empty") String username,
                 @NotEmpty(message = "Password should not be empty") String password) {

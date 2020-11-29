@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("ru.max.webapp")
+@ComponentScan("ru")
 public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
@@ -29,20 +29,4 @@ public class WebConfig implements WebMvcConfigurer {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-
-//    @Bean
-//    public SpringTemplateEngine templateEngine() {
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver());
-//        templateEngine.setEnableSpringELCompiler(true);
-//        return templateEngine;
-//    }
-
-
-//    @Override
-//    public ViewResolver viewResolvers(ViewResolverRegistry registry) {
-//        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-//        resolver.setTemplateEngine(templateEngine());
-//        registry.viewResolver(resolver);
-//    }
 }

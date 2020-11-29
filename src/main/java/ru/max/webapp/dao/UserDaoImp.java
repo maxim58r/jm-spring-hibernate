@@ -19,8 +19,8 @@ public class UserDaoImp implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
     private Role role;
@@ -28,7 +28,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public void saveUser(User user) {
         if (user.getId() == null) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(user.getPassword());
             Set<Role> roles = new HashSet<>();
             roles.add(role);
             user.setRoles(roles);
@@ -40,7 +40,7 @@ public class UserDaoImp implements UserDao {
     public void updateUser(long id, User updateUser) {
         User user = findById(id);
         user.setUsername(updateUser.getUsername());
-        user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        user.setPassword(updateUser.getPassword());
         user.setRoles(updateUser.getRoles());
         entityManager.merge(user);
     }
