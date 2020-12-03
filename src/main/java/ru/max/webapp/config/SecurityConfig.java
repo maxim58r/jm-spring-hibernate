@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 
 import javax.sql.DataSource;
 
@@ -14,32 +15,36 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    DataSource dataSource;
+//    @Autowired
+//    DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.jdbcAuthentication().dataSource(dataSource);
+//        auth.jdbcAuthentication().dataSource(dataSource);
 
-//        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
-//        auth.inMemoryAuthentication()
-//                .withUser(userBuilder
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN"))
-//                .withUser(userBuilder
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER"));
+       UserBuilder userBuilder = User.withDefaultPasswordEncoder();
+        auth.inMemoryAuthentication()
+                .withUser(userBuilder
+                        .username("admin")
+                        .password("admin")
+                        .roles("EMPLOYEE"))
+                .withUser(userBuilder
+                        .username("user")
+                        .password("user")
+                        .roles("CLIENT"))
+                .withUser(userBuilder
+                        .username("aaa")
+                        .password("aaa")
+                        .roles("EMPLOYEE"));
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/").hasAnyRole("CLIENT", "EMPLOYEE")
+                .antMatchers("/admin/**").hasRole("EMPLOYEE")
+                .antMatchers("/user/**").hasAnyRole("CLIENT", "EMPLOYEE")
                 .and().formLogin().permitAll();
     }
 }

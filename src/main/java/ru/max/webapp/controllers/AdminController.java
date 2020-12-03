@@ -23,26 +23,40 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/{id}/edit")
-    public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userService.findById(id));
-        return "one/edit";
+    @GetMapping(value = "/new")
+    public String save(Model model) {
+        model.addAttribute("user", new User());
+        return "new";
     }
 
-    @PatchMapping(value = "/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                         @PathVariable("id") long id) {
+    @PostMapping(value = "/new")
+    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "one/edit";
-        }
-        userService.update(id, user);
-        return "redirect:/users";
+            return "new";
+        } else
+            userService.saveUser(user);
+            return "redirect:/user/users";
     }
 
-    @DeleteMapping(value = "/{id}")
+    @GetMapping(value = "/{id}/edit")
+    public String update(Model model, @PathVariable("id") long id) {
+        model.addAttribute("user", userService.findById(id));
+        return "new";
+    }
+
+    @PostMapping(value = "/{id}")
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                             @PathVariable("id") long id) {
+        if (bindingResult.hasErrors()) {
+            return "new";
+        }
+        userService.saveUser(user);
+        return "redirect:/user/users";
+    }
+
+    @GetMapping(value = "/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        userService.delete(id);
-        return "redirect:/users";
+        userService.deleteUser(id);
+        return "redirect:/user/users";
     }
 }
-

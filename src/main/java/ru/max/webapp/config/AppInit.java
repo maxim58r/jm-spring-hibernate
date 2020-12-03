@@ -1,12 +1,6 @@
 package ru.max.webapp.config;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -20,7 +14,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{
-                WebConfig.class
+                AppConfig.class
         };
     }
 
@@ -29,23 +23,4 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-
-//    @Override
-//    public void onStartup(ServletContext aServletContext) throws ServletException {
-//        super.onStartup(aServletContext);
-//        registerHiddenFieldFilter(aServletContext);
-//
-//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-//        characterEncodingFilter.setEncoding("UTF-8");
-//        characterEncodingFilter.setForceEncoding(true);
-//
-//        FilterRegistration.Dynamic filterRegistration = aServletContext
-//                .addFilter("characterEncodingFilter", characterEncodingFilter);
-//        filterRegistration.addMappingForUrlPatterns(null, false, "/*");
-//    }
-
-//    private void registerHiddenFieldFilter(ServletContext servletContext) {
-//       servletContext.addFilter("hiddenHttpMethodFilter", new HiddenHttpMethodFilter())
-//        .addMappingForUrlPatterns(null,true, "/*");
-//    }
 }

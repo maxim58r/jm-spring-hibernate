@@ -31,13 +31,13 @@ public class Role implements GrantedAuthority {
     @Column(name = "role",nullable = false)
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
-    protected Set<User> users;
+//    @ManyToMany(mappedBy = "roles")
+//    protected Set<User> users;
 
-    public Role(Long id, String role, Set<User> users) {
+
+    public Role(Long id, @NotEmpty String role) {
         this.id = id;
         this.role = role;
-        this.users = users;
     }
 
     @Override

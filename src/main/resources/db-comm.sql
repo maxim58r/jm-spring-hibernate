@@ -42,3 +42,37 @@ insert into my_db.roles (id, roles) values (2, 'ROLE_USER');
 insert into my_db.users_roles values (1, 2);
 
 select * from users, roles;
+
+INSERT INTO `my_db`.`users` (`id`, `role`, `password`, `salary`, `username`, `enabled`) VALUES ('1', 'ROLE_EMPLOYEE', 'admin', '200', 'max', b'1');
+INSERT INTO `my_db`.`users` (`id`, `role`, `password`, `salary`, `username`, `enabled`) VALUES ('2', 'ROLE_CLIENT', 'user', '1500', 'vlad', b'0');
+INSERT INTO `my_db`.`users` (`id`, `role`, `password`, `salary`, `username`, `enabled`) VALUES ('3', 'ROLE_CLIENT', '111111', '500', 'kolya', b'1');
+INSERT INTO `my_db`.`users` (`id`, `role`, `password`, `salary`, `username`, `enabled`) VALUES ('4', 'ROLE_CLIENT', 'серов', '500', 'максим', b'1');
+
+
+USE my_db;
+
+CREATE TABLE users (
+  username varchar(15),
+  password varchar(100),
+  enabled tinyint(1),
+  PRIMARY KEY (username)
+) ;
+
+CREATE TABLE authorities (
+  username varchar(15),
+  authority varchar(25),
+  FOREIGN KEY (username) references users(username)
+) ;
+
+INSERT INTO my_db.users (username, password, enabled)
+VALUES
+	('zaur', '{noop}zaur', 1),
+	('elena', '{noop}elena', 1),
+	('ivan', '{noop}ivan', 1);
+
+INSERT INTO my_db.authorities (username, authority)
+VALUES
+	('zaur', 'ROLE_EMPLOYEE'),
+	('elena', 'ROLE_HR'),
+    ('ivan', 'ROLE_HR'),
+	('ivan', 'ROLE_MANAGER');
